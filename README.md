@@ -23,7 +23,7 @@ I believe sharing this project will help others learn Django (and maybe Tailwind
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/bereavement-fund.git
+   git clone https://github.com/TawanaState/bereavement-fund.git
    cd bereavement-fund
    ```
 

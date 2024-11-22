@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Update Payment Status for {{ member.full_name }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="payment_status">Payment Status:</label>
+    <input type="checkbox" name="payment_status" id="payment_status" {% if member.payment_status %}checked{% endif %}>
+    <br>
+    <button type="submit">Update Payment Status</button>
+</form>
+
+<a href="{% url 'main:trustee_dashboard' %}">Back to Dashboard</a>
+{% endblock %}

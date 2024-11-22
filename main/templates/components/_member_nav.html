@@ -1,0 +1,43 @@
+<nav class="shadow-md">
+
+    <a class="brand-name text-black" href="">HIT Bereavement Fundings</a>
+
+    {% url 'main:member_dashboard' as mdashboard %}
+    <a class="{% if request.path == mdashboard %} active {% endif %}" href="{% url 'main:member_dashboard' %}">
+        <i class="bi bi-house"></i>
+        Home
+    </a>
+
+    {% url 'main:member_payment_history' as mph %}
+    <a class="{% if request.path == mph %} active {% endif %}" href="{% url 'main:member_payment_history' %}">
+        <i class="bi bi-clock"></i>
+        Payment History
+    </a>
+
+    {% url 'main:claim_list' as mcl %}
+    <a class="{% if request.path == mcl %} active {% endif %}" href="{% url 'main:claim_list' %}">
+        <i class="bi bi-cash-stack"></i>
+        Claims
+    </a>
+
+    {% url 'main:beneficiary_list' as mbl %}
+    <a class="{% if request.path == mbl %} active {% endif %}" href="{% url 'main:beneficiary_list' %}">
+        <i class="bi bi-people"></i>
+        Beneficiaries
+    </a>
+
+    <hr class="mx-6">
+
+    {% if user.trustee %}
+    <a href="/trustee/">
+        <i class="bi bi-person-badge"></i>
+        Switch to Trustee
+    </a>
+    {% endif %}
+
+    <a href="/logout/">
+        <i class="bi bi-arrow-left-square"></i>
+        Sign Out
+    </a>
+
+</nav>

@@ -1,0 +1,260 @@
+{% extends 'trustee-base.html' %}
+{% block content %}
+
+<div class="main grid grid-cols-1 gap-10 md:gap-16 max-h-[90vh] overflow-y-auto">
+
+    <div class="text-[0.7rem] md:text-[0.9rem] md:mr-6 *:bg-white *:rounded-md flex flex-col gap-3">
+
+        <div class="py-5 px-7 pb-4">
+            <h2>
+                {{ member.user }}
+                {% if member.user == request.user %}
+                (You)
+                {% endif %}
+            </h2>
+
+            <p class="tags py-3 flex flex-row gap-2 *:rounded-2xl *:px-3 *:py-1 *:bg-blue-50 *:cursor-pointer">
+                {% if trustee %}
+                <span class="tag">
+                    <i class="bi bi-patch-check-fill text-blue-500"></i> Trustee
+                </span>
+                {% endif %}
+
+                {% if fullypaid %}
+                <span class="tag">
+                    <i class="bi bi-cash-stack text-blue-500 mr-1"></i> Fully Paid
+                </span>
+                {% else %}
+                <span class="tag !bg-red-50">
+                    <i class="bi bi-cash-stack text-red-500 mr-1"></i> Not Paid
+                </span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="py-5 px-7 pb-4 flex flex-row gap-3 flex-wrap">
+            {% if request.user.trustee != trustee %}
+            <a class="btn" href="{% url 'main:add_payment' member.pk %}">Add Payment</a>
+            <a class="btn" href="{% url 'main:delete_member' member.pk %}">Delete Member</a>
+
+            {% if trustee %}
+            <a class="btn" href="{% url 'main:update_trustee' trustee.pk %}">Edit Trustee</a>
+            <a class="btn" href="{% url 'main:delete_trustee' trustee.pk %}">Delete Trustee</a>
+            {% else %}
+            <a class="btn" href="{% url 'main:create_trustee' member.pk %}">Make Trustee</a>
+            {% endif %}
+            
+            {% endif %}
+            
+            <a class="btn" href="mailto:{{member.user.email}}">Email Now!</a>
+        </div>
+        
+
+        <div class="py-9 px-7">
+
+            <h3 class="mb-4 font-bold text-xl text-blue-950">Infomation</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 *:flex *:flex-col even:*:*:font-bold">
+            
+                <div>
+                    <span>Email Address</span>
+                    <span>{{member.user.email}}</span>
+                </div>
+
+                <div>
+                    <span>Phone Number</span>
+                    <span>{{ member.phone_number }}</span>
+                </div>
+
+                <div>
+                    <span>Extension</span>
+                    <span>{{ member.extension }}</span>
+                </div>
+
+                <div>
+                    <span>Fax</span>
+                    <span>{{ member.fax }}</span>
+                </div>
+
+                <div>
+                    <span>Date Of Birth</span>
+                    <span>{{ member.date_of_birth }}</span>
+                </div>
+
+                <div>
+                    <span>ID Number</span>
+                    <span>{{ member.id_number }}</span>
+                </div>
+
+                <div>
+                    <span>HIT EC Number</span>
+                    <span>{{ member.hit_ec_number }}</span>
+                </div>
+
+                <div>
+                    <span>Residential Address</span>
+                    <span>{{ member.residential_address }}</span>
+                </div>
+
+                <div>
+                    <span>Employment Position</span>
+                    <span>{{ member.employment_position }}</span>
+                </div>
+
+                <div>
+                    <span>Department</span>
+                    <span>{{ member.department }}</span>
+                </div>
+
+                <div>
+                    <span>Office Number</span>
+                    <span>{{member.office_number}}</span>
+                </div>
+
+                <div>
+                    <span>Employment Duration</span>
+                    <span>{{ member.employment_duration }}</span>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        {% if trustee %}
+        <div class="py-9 px-7">
+            <h3 class="mb-4 font-bold text-xl text-blue-950">Trustee Details</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 *:flex *:flex-col even:*:*:font-bold">
+            
+                <div>
+                    <span>Position</span>
+                    <span>{{trustee.position}}</span>
+                </div>
+
+                <div>
+                    <span>Role</span>
+                    <span>{{ trustee.role }}</span>
+                </div>
+
+                <div>
+                    <span>Description</span>
+                    <span>{{ trustee.description }}</span>
+                </div>
+
+            </div>
+        </div>
+        {% endif %}
+
+
+
+        <div class="py-9 px-7">
+            <h3 class="mb-4 font-bold text-xl text-blue-950">Beneficiaries</h3>
+            <div class="w-full overflow-x-auto">
+                <div class="grid grid-cols-[auto,auto,auto,auto] *:p-4 w-full *:border">
+
+                    <span class="font-bold !border-b-2">
+                        Fullname
+                    </span>
+                    <span class="font-bold !border-b-2">
+                        Relationship
+                    </span>
+                    <span class="font-bold !border-b-2">
+                        ID Number
+                    </span>
+                    <span class="font-bold !border-b-2">
+                        Proof
+                    </span>
+
+                    {% for beneficiary in beneficiaries %}
+                        <span>
+                            {{beneficiary.full_name}}
+                        </span>
+                        <span>
+                            {{beneficiary.relationship_type}}
+                        </span>
+                        <span>
+                            {{beneficiary.id_number}}
+                        </span>
+                        <span>
+                            <a href="{{beneficiary.proof_of_relationship.url}}">Download</a>
+                        </span>
+                    {% endfor %}
+
+                </div>
+            </div>
+            
+
+
+        </div>
+
+
+        <div class="py-9 px-7">
+            <h3 class="mb-4 font-bold text-xl text-blue-950">Claims</h3>
+            <div class="w-full overflow-x-auto">
+                <div class="grid grid-cols-[auto,auto,auto,auto] *:p-4 w-full *:border">
+
+                    <span class="font-bold !border-b-2">
+                        Beneficiary Fullname
+                    </span>
+                    <span class="font-bold !border-b-2">
+                        Relationship
+                    </span>
+                    <span class="font-bold !border-b-2">
+                        Date Filed
+                    </span>
+                    <span class="font-bold !border-b-2">
+                        Status
+                    </span>
+
+
+                    {% for claim in claims %}
+
+                    <span>
+                        <a href="{% url 'main:claim_info' claim.pk %}">⇗</a>
+                        {{claim.beneficiary.full_name}}
+                    </span>
+                    <span>
+                        {{ claim.beneficiary.relationship_type }}
+                    </span>
+                    <span>
+                        {{ claim.beneficiary.id_number }}
+                    </span>
+
+                    {% if claim.status == "pending" %}
+                    <span class="">
+                        Pending...
+                    </span>
+                    {% elif claim.status == "approved" %}
+                    <span class="text-primary">
+                        Approved
+                    </span>
+                    {% elif claim.status == "rejected" %}
+                    <span class="text-red-500">
+                        Rejected
+                    </span>
+                    {%endif%}
+
+                    {% endfor %}
+
+
+                </div>
+            </div>
+            
+
+
+        </div>
+
+
+    </div>
+
+    <div class="">
+        
+    </div>
+    
+
+</div>
+
+{% endblock %}

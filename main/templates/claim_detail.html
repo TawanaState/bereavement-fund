@@ -1,0 +1,113 @@
+{% extends 'trustee-base.html' %}
+{% block content %}
+
+<div class="main grid grid-cols-1 gap-10 md:gap-16 max-h-[90vh] overflow-y-auto">
+
+            
+
+    <div class="text-[0.7rem] md:text-[0.9rem] md:mr-6 *:bg-white *:rounded-md flex flex-col gap-3">
+
+        <div class="py-5 px-7 pb-4">
+            <h2>Claim from {{ claim.member.user }}</h2>
+
+            <p class="tags py-3 flex flex-row gap-2 *:rounded-2xl *:px-3 *:py-1 *:bg-blue-50 *:cursor-pointer">
+                {% if claim.status == "rejected" %}
+                <span class="tag !bg-red-50">
+                    <i class="bi bi-x text-red-500 mr-1"></i> Rejected
+                </span>
+                {% elif claim.status == "pending" %}
+                <span class="tag !bg-gray-50">
+                    <i class="bi bi-clock text-gray-500 mr-1"></i> Pending...
+                </span>
+                {% elif claim.status == "approved" %}
+                <span class="tag">
+                    <i class="bi bi-patch-check-fill text-blue-500"></i> Approved
+                </span>
+                {%endif%}
+                
+            </p>
+        </div>
+
+        {% if claim.status == "pending" and claim.member.user != request.user %}
+        <form class="py-5 px-7 pb-4 flex flex-row items-center gap-3" action="{% url 'main:approve_claim' claim.pk %}" method="post">
+            {% csrf_token %}
+            <span>USD</span>
+            <input class="h-fit" value="{{ amount }}" min="0" readonly="True" max="99999999" placeholder="Amount" type="number" name="amount">
+            <button type="submit">Approve</button>
+            <span>|</span>
+            <a class="btn text-red-500 !px-6 !border-red-500" href="{% url 'main:reject_claim' claim.pk %}" type="button">Reject</a>
+        </form>
+        {% endif %}
+        
+
+        <div class="py-9 px-7">
+
+            <h3 class="mb-4 font-bold text-xl text-blue-950">Infomation</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 *:flex *:flex-col even:*:*:font-bold">
+            
+                <div>
+                    <span>Beneficiary Fullname</span>
+                    <span>{{ claim.beneficiary.full_name }}</span>
+                </div>
+
+                <div>
+                    <span>Beneficiary ID</span>
+                    <span>{{ claim.beneficiary.id_number }}</span>
+                </div>
+
+                <div>
+                    <span>Beneficiary Relationship</span>
+                    <span>{{ claim.beneficiary.relationship_type }}</span>
+                </div>
+
+                <div>
+                    <span>Date Filed</span>
+                    <span>{{ claim.date_filed }}</span>
+                </div>
+
+                {% if claim.status == "approved" %}
+                <div>
+                    <span>Approval Date</span>
+                    <span>{{ claim.approval_date }}</span>
+                </div>
+
+                <div>
+                    <span>Approved By</span>
+                    <span>{{ claim.approved_by.user }}</span>
+                </div>
+
+                <div>
+                    <span>Amount Claimed</span>
+                    <span>{{ claim.amount_claimed }} USD</span>
+                </div>
+
+                
+                {% endif %}
+
+                <div>
+                    <span>Proof</span>
+                    <span><a href="{{ claim.proof_of_claim.url }}">Download</a></span>
+                </div>
+
+                <div>
+                    <span>Description</span>
+                    <span>{{ claim.description }}</span>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+    
+
+</div>
+
+{% endblock %}

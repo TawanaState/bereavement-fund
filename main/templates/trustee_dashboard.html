@@ -1,0 +1,92 @@
+{% extends 'trustee-base.html' %}
+{% block content %}
+
+<div class="main grid grid-cols-1 md:grid-cols-[3fr,2fr] gap-10 md:gap-16">
+
+    <div class="grid md:grid-rows-[2fr,3fr]">
+
+        <div class="cards grid grid-cols-2 grid-rows-2 gap-3">
+            <div class="card bg-green-300 bg-opacity-20">
+                <div>
+                    <span>Members</span>
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <p>{{ members_count }}</p>
+                <p></p>
+            </div>
+
+            <div class="card bg-yellow-300 bg-opacity-20">
+                <div>
+                    <span>Beneficiaries</span>
+                    <i class="bi bi-people"></i>
+                </div>
+                <p>{{ beneficiaries_count }}</p>
+                <p></p>
+            </div>
+
+            <div class="card bg-indigo-300 bg-opacity-20">
+                <div>
+                    <span>Claims</span>
+                    <i class="bi bi-cash"></i>
+                </div>
+                <p>{{ claims_count }}</p>
+                <p></p>
+            </div>
+
+            <div class="card bg-pink-300 bg-opacity-20">
+                <div>
+                    <span>Trustees</span>
+                    <i class="bi bi-cash"></i>
+                </div>
+                <p>{{ trustees_count }}</p>
+                <p></p>
+            </div>
+        </div>
+
+        <div class="claims-list flex flex-col gap-2 py-6 px-1">
+            <h3 class="font-bold">Claims</h3>
+            {% for claim in pending_claims %}
+            <a href="{% url 'main:claim_info' claim.pk %}" class="bg-white rounded-md px-5 py-3 flex flex-col cursor-pointer">
+                <span class="font-semibold text-black">{{ claim.member.user }}'s {{ claim.beneficiary.relationship_type }}</span>
+                <span class="text-xs text-gray-600">{{ claim.date_filed }}</span>
+            </a>
+            {% endfor %}
+
+            {% if not pending_claims %}
+            <span>No pending claims...</span>
+            {% endif %}
+
+        </div>
+        
+        
+    </div>
+
+
+    <div class="overflow-y-scroll pb-10">
+        
+        <ul style="margin-right: 30px;" class="actions bg-white px-6 py-5 rounded-md">
+            <h3 class="font-semibold">Recent Actions</h3>
+            {% for action in events %}
+            <li>
+                {% if action.event_type == "delete" %}
+                <i class="bi bi-trash mx-[auto]"></i>
+                {% elif action.event_type == "update" %}
+                <i class="bi bi-pencil mx-[auto]"></i>
+                {% elif action.event_type == "create" %}
+                <i class="bi bi-plus-lg mx-[auto]"></i>
+                {% endif %}
+                <span>
+                    <span class="font-bold text-sm">{{ action.event }}</span>
+                    <span>{{ action.event_date }} by {{ action.trustee.user }}</span>
+                </span>
+            </li>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+    
+
+</div>
+
+{% endblock %}

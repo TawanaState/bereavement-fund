@@ -1,0 +1,40 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <title>Funding</title>
+</head>
+<body class="flex flex-row justify-center items-center">
+
+    {%block content%}
+
+
+    
+        
+
+
+    {%endblock%}
+    
+</body>
+
+{% if messages %}
+    <ul class="notifications">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {% if message.tags == "success" %}
+                    <i class="bi bi-patch-check-fill"></i>
+                {% elif message.tags == "error" %}
+                    <i class="bi bi-patch-exclamation-fill"></i>
+                {% else %}
+                    <i class="bi bi-info-circle-fill"></i>
+                {% endif %}
+                <p>{{ message }}</p>
+                <input type="checkbox">
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+</html>

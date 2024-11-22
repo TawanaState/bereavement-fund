@@ -1,0 +1,49 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <title>Funding</title>
+</head>
+<body class="grid grid-cols-1 md:grid-cols-[1fr,4fr]">
+
+    {% include "components/_trustee_nav.html" %}
+
+    <main class="bg-gray-300 bg-opacity-25 grid gap-2 md:gap-4 grid-rows-[1fr,9fr] px-8 py-4 md:px-16 md:py-4">
+
+        {% include "components/_header.html" with title=title %}
+
+        {%block content%}
+
+
+        
+
+
+        {%endblock%}
+
+    </main>
+
+    
+
+</body>
+
+{% if messages %}
+    <ul class="notifications">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {% if message.tags == "success" %}
+                    <i class="bi bi-patch-check-fill"></i>
+                {% elif message.tags == "error" %}
+                    <i class="bi bi-patch-exclamation-fill"></i>
+                {% else %}
+                    <i class="bi bi-info-circle-fill"></i>
+                {% endif %}
+                <p>{{ message }}</p>
+                <input type="checkbox">
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+</html>

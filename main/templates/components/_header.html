@@ -1,0 +1,15 @@
+{% load static %}
+<header class="gap-2 flex flex-row justify-between">
+
+    <div class="flex flex-row items-center gap-4">
+        <input class="bi toggle-btn appearance-none cursor-pointer md:hidden" type="checkbox">
+        <h1>{{ title }}</h1>
+        <span class="bg-white px-4 py-1 rounded-md text-sm hidden">...</span>
+    </div>
+
+    <a href="{% url 'main:account_details' %}" class="flex flex-row items-center gap-3 font-semibold cursor-pointer">
+        <img class="w-[30px] rounded-full bg-primary bg-opacity-25 p-1" src="{% static 'assets/vendor/user-icon.png' %}" alt="">
+        <span class="hidden md:inline-block text-black">{{ user|title }}</span>
+    </a>
+
+</header>

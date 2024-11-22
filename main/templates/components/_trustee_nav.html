@@ -1,0 +1,48 @@
+<nav class="shadow-md">
+
+    <a class="brand-name text-black" href="">HIT Bereavement Fundings</a>
+
+    {% url 'main:trustee_dashboard' as tdashboard %}
+    <a class="{% if request.path == tdashboard %} active {% endif %}" href="{% url 'main:trustee_dashboard' %}">
+        <i class="bi bi-house"></i>
+        Home
+    </a>
+
+    {% url 'main:member_list' as tmember_list %}
+    <a class="{% if request.path == tmember_list %} active {% endif %}" href="{% url 'main:member_list' %}">
+        <i class="bi bi-person-badge"></i>
+        Members
+    </a>
+
+    {% url 'main:trustee_claim_list' as tclaim_list %}
+    <a class="{% if request.path == tclaim_list %} active {% endif %}" href="{% url 'main:trustee_claim_list' %}">
+        <i class="bi bi-cash-stack"></i>
+        Claims
+    </a>
+
+    {% url 'main:trustee_analytics' as tanalytics %}
+    <a class="{% if request.path == tanalytics %} active {% endif %}" href="{% url 'main:trustee_analytics' %}">
+        <i class="bi bi-graph-up"></i>
+        Analytics
+    </a>
+
+    {% url 'main:trustee_settings' as tsettings %}
+    <a class="{% if request.path == tsettings %} active {% endif %}" href="{% url 'main:trustee_settings' %}">
+        <i class="bi bi-gear"></i>
+        Settings
+    </a>
+
+
+    <hr class="mx-6">
+    
+    <a href="{% url 'main:member_dashboard' %}">
+        <i class="bi bi-person-badge"></i>
+        Switch to Member
+    </a>
+
+    <a href="/logout/">
+        <i class="bi bi-arrow-left-square"></i>
+        Sign Out
+    </a>
+
+</nav>

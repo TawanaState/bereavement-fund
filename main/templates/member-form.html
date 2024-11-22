@@ -1,0 +1,49 @@
+{% extends 'member-base.html' %}
+{% block content %}
+
+<div class="main grid grid-cols-1 gap-10 md:gap-16 max-h-[90vh] overflow-y-auto">
+
+    <div class="text-[0.7rem] md:text-[0.9rem] md:mr-6 *:bg-white *:rounded-md flex flex-col gap-3">
+
+        {% if subtitle %}
+        <div class="py-5 px-7 pb-4">
+            <h2>{{ subtitle }}</h2>
+        </div>
+        {% endif %}
+        
+
+        <form {% if form.is_multipart %} enctype="multipart/form-data" {% endif %} class="py-9 px-7 grid grid-cols-1 md:grid-cols-3 *:flex *:flex-col odd:*:*:font-bold gap-5" action="" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <div class="text-red-500">
+                        {{ field.errors }}
+                    </div>
+                    {% if field.help_text %}
+                        <p class="text-xs" id="{{ field.auto_id }}_helptext">
+                        {{ field.help_text|safe }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="col-span-full">
+                <button class="w-fit px-8 !bg-primary !text-white">
+                    Submit
+                </button>
+            </div>
+            
+        </form>
+
+    </div>
+
+    <div class="">
+        
+    </div>
+    
+
+</div>
+
+{% endblock %}

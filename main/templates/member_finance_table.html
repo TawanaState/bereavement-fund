@@ -1,0 +1,23 @@
+{% extends 'member-base.html' %}
+{% block content %}
+
+
+<div class="main grid grid-cols-1 gap-2 md:gap-12 max-h-[90vh] overflow-y-auto">
+
+    <div class="w-full overflow-x-auto px-6">
+        <ul class="payments flex flex-col gap-2 py-6 px-1">
+            {% for payment in history %}
+            <li class="bg-white rounded-md px-5 py-3 flex flex-col cursor-pointer">
+                <span class="font-semibold">Paid for {{ payment.disp }}</span>
+                <span class="text-xs text-gray-600">{{ payment.payment_date }}</span>
+            </li>
+            {% endfor %}
+
+        </ul>        
+    </div>
+    
+
+</div>
+
+
+{% endblock %}

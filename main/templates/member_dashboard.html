@@ -1,0 +1,87 @@
+{% extends 'member-base.html' %}
+{% block content %}
+<div class="main grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-12 max-h-[90vh] overflow-y-auto">
+
+            
+    <div class="grid md:grid-rows-[2fr,3fr]">
+
+        <div class="cards grid grid-cols-2 grid-rows-2 gap-4">
+            <div class="card bg-green-300 bg-opacity-20">
+                <div>
+                    <span>Membership Length</span>
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <p>{{ member.membership_length }}</p>
+                <p>Months</p>
+            </div>
+
+            <div class="card bg-yellow-300 bg-opacity-20">
+                <div>
+                    <span>Beneficiaries</span>
+                    <i class="bi bi-people"></i>
+                </div>
+                <p>{{ member.beneficiaries.count }}</p>
+                <p>...</p>
+            </div>
+
+            <div class="card bg-indigo-300 bg-opacity-20">
+                <div>
+                    <span>Claims</span>
+                    <i class="bi bi-cash"></i>
+                </div>
+                <p>{{ aclaims.count }}</p>
+                <p>Approved Claims</p>
+            </div>
+
+            <div class="card bg-pink-300 bg-opacity-20">
+                <div>
+                    <span>Claims</span>
+                    <i class="bi bi-cash"></i>
+                </div>
+                <p>{{ rclaims.count }}</p>
+                <p>Rejected Claims</p>
+            </div>
+        </div>
+
+        <ul class="payments flex flex-col gap-2 py-6 px-1">
+
+            {% for payment in history %}
+            <li class="bg-white rounded-md px-5 py-3 flex flex-col cursor-pointer">
+                <span class="font-semibold">Paid for {{ payment.disp }}</span>
+                <span class="text-xs text-gray-600">{{ payment.payment_date }}</span>
+            </li>
+            {% endfor %}
+
+        </ul>
+        
+        
+    </div>
+
+    <div class="h-auto">
+        
+        <div class="bg-white rounded-md py-8 px-7 md:mr-5 shadow-sm">
+            <h3 class="text-blue-950 mb-2 font-bold text-xl">Actions</h3>
+            <div class="flex flex-row flex-wrap gap-2 *:!my-0">
+
+                <a href="{% url 'main:create_claim' %}" class="btn">
+                    Create Claim
+                </a>
+
+                <a href="{% url 'main:changepassword' %}" class="btn">
+                    Change Password
+                </a>
+
+                <a href="{% url 'main:update_member_profile' %}" class="btn">
+                    Update Account Info
+                </a>
+
+            </div>
+            
+
+        </div>
+
+    </div>
+    
+
+</div>
+{% endblock %}
